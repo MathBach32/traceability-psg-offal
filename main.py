@@ -13,9 +13,26 @@ import tkinter as tk
 from tkinter import ttk
 import gettext
 import os
+import sys  # Make sure this import is added
 
 # Import the printing function from our printer module.
 from printer import print_labels
+
+# --- Helper function for PyInstaller asset paths ---
+# This function is crucial for the .exe to find the asset files.
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    # Check if the script is running as a bundled executable
+    if hasattr(sys, '_MEIPASS'):
+        # PyInstaller creates a temp folder and stores its path in _MEIPASS
+        base_path = sys._MEIPASS
+    else:
+        # We are running in a normal Python environment
+        # Use the directory of the script file
+        base_path = os.path.abspath(os.path.dirname(__file__))
+
+    return os.path.join(base_path, relative_path)
+
 
 # --- Internationalization (i18n) Setup ---
 # This section configures the gettext library to find our French translations.
@@ -23,11 +40,10 @@ from printer import print_labels
 # The domain 'messages' should match the name of our .mo file.
 APP_NAME = "messages"
 # The LOCALE_DIR should point to the directory where the 'locale' folder is.
-LOCALE_DIR = os.path.join(os.path.dirname(__file__), "locale")
+LOCALE_DIR = resource_path("locale")
 
 # Set up gettext
 # This tells gettext where to find the translation files.
-# It will look for ./locale/fr/LC_MESSAGES/fr.mo
 try:
     fr_translation = gettext.translation(APP_NAME, localedir=LOCALE_DIR, languages=['fr'])
     fr_translation.install()
@@ -49,8 +65,10 @@ class Application(tk.Frame):
         super().__init__(master)
         self.master = master
         self.master.title(_("Label Printer"))
-        # Set the application icon from the .ico file
-        self.master.iconbitmap('assets/icon.ico')
+        
+        # Set the application icon using the resource_path helper function.
+        self.master.iconbitmap(resource_path('assets/icon.ico'))
+        
         self.master.resizable(False, False) # Make window not resizable
         self.pack(padx=20, pady=20)
         self.create_widgets()
@@ -59,10 +77,10 @@ class Application(tk.Frame):
         """Create and arrange all the widgets in the window."""
 
         # --- Image Display ---
-        # Load the image from file.
+        # Load the image from file using the resource_path helper function.
         # We must keep a reference to this image object in the class instance;
         # otherwise, Python's garbage collector will discard it.
-        self.image = tk.PhotoImage(file='assets/picture.png')
+        self.image = tk.PhotoImage(file=resource_path('assets/picture.png'))
         self.image_label = ttk.Label(self, image=self.image)
         self.image_label.pack(pady=(0, 10))
 
