@@ -49,12 +49,22 @@ class Application(tk.Frame):
         super().__init__(master)
         self.master = master
         self.master.title(_("Label Printer"))
+        # Set the application icon from the .ico file
+        self.master.iconbitmap('assets/icon.ico')
         self.master.resizable(False, False) # Make window not resizable
         self.pack(padx=20, pady=20)
         self.create_widgets()
 
     def create_widgets(self):
         """Create and arrange all the widgets in the window."""
+
+        # --- Image Display ---
+        # Load the image from file.
+        # We must keep a reference to this image object in the class instance;
+        # otherwise, Python's garbage collector will discard it.
+        self.image = tk.PhotoImage(file='assets/picture.png')
+        self.image_label = ttk.Label(self, image=self.image)
+        self.image_label.pack(pady=(0, 10))
 
         # --- Input Section ---
         # A label and an entry field for the user to type the number of labels.
