@@ -106,6 +106,37 @@ class Application(tk.Frame):
         self.status_label = ttk.Label(self, text=_("Enter a number and click Print."), wraplength=300)
         self.status_label.pack(pady=(10, 0))
 
+        # --- About Link ---
+        self.about_label = ttk.Label(self, text=_("About"), cursor="hand2", foreground="blue")
+        self.about_label.pack(pady=(10, 0))
+        self.about_label.bind("<Button-1>", self.show_about_window)
+
+    def show_about_window(self, event=None):
+        """Displays the 'About' window with application information."""
+        about_win = tk.Toplevel(self.master)
+        about_win.title(_("About Label Printer"))
+        about_win.resizable(False, False)
+
+        # Center the about window on the parent window
+        x = self.master.winfo_x()
+        y = self.master.winfo_y()
+        w = self.master.winfo_width()
+        h = self.master.winfo_height()
+        about_win.geometry(f"+{x + w // 2 - 150}+{y + h // 2 - 100}")
+
+
+        info_frame = ttk.Frame(about_win, padding="20")
+        info_frame.pack(expand=True, fill="both")
+
+        ttk.Label(info_frame, text=_("Label Printer v1.0")).pack(pady=2)
+        ttk.Label(info_frame, text=_("Developed by: MathBach32")).pack(pady=2)
+        ttk.Label(info_frame, text="").pack(pady=2) # Blank line
+        ttk.Label(info_frame, text=_("For any bug or suggestion, contact:")).pack(pady=2)
+        ttk.Label(info_frame, text=_("mathieu.bachmann@outlook.com")).pack(pady=2)
+        ttk.Label(info_frame, text="").pack(pady=2) # Blank line
+        ttk.Label(info_frame, text=_("This software is distributed under the")).pack(pady=2)
+        ttk.Label(info_frame, text=_("Creative Commons BY-NC-SA 4.0 license.")).pack(pady=2)
+
     def start_printing(self):
         """
         This method is called when the 'Print' button is clicked.
