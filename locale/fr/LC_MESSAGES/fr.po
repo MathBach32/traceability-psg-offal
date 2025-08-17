@@ -52,3 +52,35 @@ msgstr "Erreur : une erreur réseau s'est produite."
 #: main.py:121
 msgid "Error: An unexpected error occurred."
 msgstr "Erreur : Une erreur inatendue s'est produite."
+
+#: main.py:109
+msgid "About"
+msgstr "À propos"
+
+#: main.py:114
+msgid "About Label Printer"
+msgstr "À propos de l'étiqueteuse"
+
+#: main.py:125
+msgid "Label Printer v1.0"
+msgstr "Étiqueteuse v1.0"
+
+#: main.py:126
+msgid "Developed by: MathBach32"
+msgstr "Développé par : MathBach32"
+
+#: main.py:128
+msgid "For any bug or suggestion, contact:"
+msgstr "Pour tout bug ou suggestion, contactez :"
+
+#: main.py:131
+msgid "This software is distributed under the"
+msgstr "Ce logiciel est distribué sous la licence"
+
+#: main.py:132
+msgid "Creative Commons BY-NC-SA 4.0 license."
+msgstr "Creative Commons BY-NC-SA 4.0."
+
+#: main.py:129
+msgid "mathieu.bachmann@outlook.com"
+msgstr "mathieu.bachmann@outlook.com"
