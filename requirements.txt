@@ -1,0 +1,2 @@
+# Tool for building the executable
+pyinstaller
