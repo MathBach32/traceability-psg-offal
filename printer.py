@@ -39,41 +39,35 @@ def print_labels(n):
     try:
         # --- Start of Fingerprint Command Block ---
 
-        # Initial printer setup.
-        # These commands configure the printer's operational parameters.
-        # We are assuming these commands are sent once per print job.
+        # 1. Start (once): The setup commands.
         setup_commands = [
-            'SET "PRINT METHOD" "DIRECT THERMAL"',  # Use Direct Thermal printing.
-            'SET "MEDIA TYPE" "GAP"',              # Use gapped labels.
-            'SET "MEDIA WIDTH" 840',               # Set media width in dots.
-            'SET "MEDIA LENGTH" 251',              # Set media length in dots.
+            'SETUP "Media,Media Type,Label (w Gaps)"',
+            'SETUP "Media,Media Size,Width,840"',
+            'SETUP "Print Defs,Print Method,Direct Thermal"',
         ]
 
-        # Start a new print job. In many printer languages, this is done with
-        # a command like "PRINT" or by enclosing commands in a specific block.
-        # We will assume each label is a separate print job for simplicity.
-        # The core of the printing logic will be a loop.
-
+        # 2. Middle (in a loop from 1 to N): The printing block.
         print_commands = []
         for i in range(1, n + 1):
-            # For each label, we generate a block of commands.
-            # We will use a scalable font and center the text.
-            # The 'Swiss 721' font is a common scalable font on many printers.
-            # We use MAGNIFY and JUSTIFY to make the text large and centered.
             label_commands = [
-                'FONT "Swiss 721"',           # Select a scalable font.
-                'MAGNIFY 10, 10',             # Magnify the font. We guess some values.
-                'JUSTIFY CENTER',             # Center the text horizontally.
-                f'TEXT "{i}"',                # The text to print (the number).
-                'PRINT',                      # The command to print the label.
-                'FORMFEED'                    # Eject the label.
+                "CLL",
+                'FONT "IPLFNT34H"',
+                "MAGNIFY 2, 2",
+                "PRPOS 420, 150",
+                "ALIGN 5",
+                f'PRTXT "{i}"',
+                "PRINTFEED",
             ]
             print_commands.extend(label_commands)
+
+        # 3. End (once): The cleanup command.
+        end_command = ["DEFAULT"]
 
         # Combine all commands into a single string, separated by newlines.
         # The printer will execute these commands sequentially.
         # We add a final newline to ensure the last command is processed.
-        full_command_string = "\n".join(setup_commands + print_commands) + "\n"
+        all_commands = setup_commands + print_commands + end_command
+        full_command_string = "\n".join(all_commands) + "\n"
 
         # --- End of Fingerprint Command Block ---
 
